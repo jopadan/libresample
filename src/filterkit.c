@@ -147,7 +147,7 @@ float lrsFilterUp(float Imp[],  /* impulse response */
    if (Interp)
       while (Hp < End) {
          t = *Hp;		/* Get filter coeff */
-         t += (*Hdp)*a; /* t is now interp'd filter coeff */
+         t += (float)((*Hdp)*a); /* t is now interp'd filter coeff */
          Hdp += Npc;		/* Filter coeff differences step */
          t *= *Xp;		/* Mult coeff by input sample */
          v += t;			/* The filter output */
@@ -178,6 +178,108 @@ float lrsFilterUD(float Imp[],  /* impulse response */
    float a;
    float *Hp, *Hdp, *End;
    float v, t;
+   double Ho;
+    
+   v = 0.0; /* The output value */
+   Ho = Ph*dhb;
+   End = &Imp[Nwing];
+   if (Inc == 1)		/* If doing right wing...              */
+   {				      /* ...drop extra coeff, so when Ph is  */
+      End--;			/*    0.5, we don't do too many mult's */
+      if (Ph == 0)		/* If the phase is zero...           */
+         Ho += dhb;		/* ...then we've already skipped the */
+   }				         /*    first sample, so we must also  */
+                        /*    skip ahead in Imp[] and ImpD[] */
+
+   if (Interp)
+      while ((Hp = &Imp[(int)Ho]) < End) {
+         t = *Hp;		/* Get IR sample */
+         Hdp = &ImpD[(int)Ho];  /* get interp bits from diff table*/
+         a = (float)(Ho - floor(Ho));	  /* a is logically between 0 and 1 */
+         t += (*Hdp)*a; /* t is now interp'd filter coeff */
+         t *= *Xp;		/* Mult coeff by input sample */
+         v += t;			/* The filter output */
+         Ho += dhb;		/* IR step */
+         Xp += Inc;		/* Input signal step. NO CHECK ON BOUNDS */
+      }
+   else 
+      while ((Hp = &Imp[(int)Ho]) < End) {
+         t = *Hp;		/* Get IR sample */
+         t *= *Xp;		/* Mult coeff by input sample */
+         v += t;			/* The filter output */
+         Ho += dhb;		/* IR step */
+         Xp += Inc;		/* Input signal step. NO CHECK ON BOUNDS */
+      }
+
+   return v;
+}
+
+double lrsFilterUpd(double Imp[],  /* impulse response */
+                  double ImpD[], /* impulse response deltas */
+                  UWORD Nwing,  /* len of one wing of filter */
+                  BOOL Interp,  /* Interpolate coefs using deltas? */
+                  double *Xp,    /* Current sample */
+                  double Ph,    /* Phase */
+                  int Inc)    /* increment (1 for right wing or -1 for left) */
+{
+   double *Hp, *Hdp = NULL, *End;
+   double a = 0;
+   double v, t;
+
+   Ph *= Npc; /* Npc is number of values per 1/delta in impulse response */
+   
+   v = 0.0; /* The output value */
+   Hp = &Imp[(int)Ph];
+   End = &Imp[Nwing];
+   if (Interp) {
+      Hdp = &ImpD[(int)Ph];
+      a = Ph - floor(Ph); /* fractional part of Phase */
+   }
+
+   if (Inc == 1)		/* If doing right wing...              */
+   {				      /* ...drop extra coeff, so when Ph is  */
+      End--;			/*    0.5, we don't do too many mult's */
+      if (Ph == 0)		/* If the phase is zero...           */
+      {			         /* ...then we've already skipped the */
+         Hp += Npc;		/*    first sample, so we must also  */
+         Hdp += Npc;		/*    skip ahead in Imp[] and ImpD[] */
+      }
+   }
+
+   if (Interp)
+      while (Hp < End) {
+         t = *Hp;		/* Get filter coeff */
+         t += (*Hdp)*a; /* t is now interp'd filter coeff */
+         Hdp += Npc;		/* Filter coeff differences step */
+         t *= *Xp;		/* Mult coeff by input sample */
+         v += t;			/* The filter output */
+         Hp += Npc;		/* Filter coeff step */
+         Xp += Inc;		/* Input signal step. NO CHECK ON BOUNDS */
+      } 
+   else 
+      while (Hp < End) {
+         t = *Hp;		/* Get filter coeff */
+         t *= *Xp;		/* Mult coeff by input sample */
+         v += t;			/* The filter output */
+         Hp += Npc;		/* Filter coeff step */
+         Xp += Inc;		/* Input signal step. NO CHECK ON BOUNDS */
+      }
+   
+   return v;
+}
+
+double lrsFilterUDd(double Imp[],  /* impulse response */
+                  double ImpD[], /* impulse response deltas */
+                  UWORD Nwing,  /* len of one wing of filter */
+                  BOOL Interp,  /* Interpolate coefs using deltas? */
+                  double *Xp,    /* Current sample */
+                  double Ph,    /* Phase */
+                  int Inc,    /* increment (1 for right wing or -1 for left) */
+                  double dhb) /* filter sampling period */
+{
+   double a;
+   double *Hp, *Hdp, *End;
+   double v, t;
    double Ho;
     
    v = 0.0; /* The output value */

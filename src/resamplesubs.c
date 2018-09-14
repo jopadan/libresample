@@ -121,3 +121,98 @@ int lrsSrcUD(float X[],
     *TimePtr = CurrentTime;
     return (Y - Ystart);        /* Return the number of output samples */
 }
+
+int lrsSrcUpd(double X[],
+             double Y[],
+             double factor,
+             double *TimePtr,
+             UWORD Nx,
+             UWORD Nwing,
+             double LpScl,
+             double Imp[],
+             double ImpD[],
+             BOOL Interp)
+{
+    double *Xp, *Ystart;
+    double v;
+    
+    double CurrentTime = *TimePtr;
+    double dt;                 /* Step through input signal */ 
+    double endTime;            /* When Time reaches EndTime, return to user */
+    
+    dt = 1.0/factor;           /* Output sampling period */
+    
+    Ystart = Y;
+    endTime = CurrentTime + Nx;
+    while (CurrentTime < endTime)
+    {
+        double LeftPhase = CurrentTime-floor(CurrentTime);
+        double RightPhase = 1.0 - LeftPhase;
+
+        Xp = &X[(int)CurrentTime]; /* Ptr to current input sample */
+        /* Perform left-wing inner product */
+        v = lrsFilterUpd(Imp, ImpD, Nwing, Interp, Xp,
+                        LeftPhase, -1);
+        /* Perform right-wing inner product */
+        v += lrsFilterUpd(Imp, ImpD, Nwing, Interp, Xp+1, 
+                         RightPhase, 1);
+
+        v *= LpScl;   /* Normalize for unity filter gain */
+
+        *Y++ = v;               /* Deposit output */
+        CurrentTime += dt;      /* Move to next sample by time increment */
+    }
+
+    *TimePtr = CurrentTime;
+    return (Y - Ystart);        /* Return the number of output samples */
+}
+
+/* Sampling rate conversion subroutine */
+
+int lrsSrcUDd(double X[],
+             double Y[],
+             double factor,
+             double *TimePtr,
+             UWORD Nx,
+             UWORD Nwing,
+             double LpScl,
+             double Imp[],
+             double ImpD[],
+             BOOL Interp)
+{
+    double *Xp, *Ystart;
+    double v;
+
+    double CurrentTime = (*TimePtr);
+    double dh;                 /* Step through filter impulse response */
+    double dt;                 /* Step through input signal */
+    double endTime;            /* When Time reaches EndTime, return to user */
+    
+    dt = 1.0/factor;            /* Output sampling period */
+    
+    dh = MIN(Npc, factor*Npc);  /* Filter sampling period */
+    
+    Ystart = Y;
+    endTime = CurrentTime + Nx;
+    while (CurrentTime < endTime)
+    {
+        double LeftPhase = CurrentTime-floor(CurrentTime);
+        double RightPhase = 1.0 - LeftPhase;
+
+        Xp = &X[(int)CurrentTime];     /* Ptr to current input sample */
+        /* Perform left-wing inner product */
+        v = lrsFilterUDd(Imp, ImpD, Nwing, Interp, Xp,
+                        LeftPhase, -1, dh);
+        /* Perform right-wing inner product */
+        v += lrsFilterUDd(Imp, ImpD, Nwing, Interp, Xp+1, 
+                         RightPhase, 1, dh);
+
+        v *= LpScl;   /* Normalize for unity filter gain */
+        *Y++ = v;               /* Deposit output */
+        
+        CurrentTime += dt;      /* Move to next sample by time increment */
+    }
+
+    *TimePtr = CurrentTime;
+    return (Y - Ystart);        /* Return the number of output samples */
+}

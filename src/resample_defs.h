@@ -83,4 +83,12 @@ int lrsSrcUD(float X[], float Y[], double factor, double *Time,
              UWORD Nx, UWORD Nwing, float LpScl,
              float Imp[], float ImpD[], BOOL Interp);
 
+int lrsSrcUpd(double X[], double Y[], double factor, double *Time,
+             UWORD Nx, UWORD Nwing, double LpScl,
+             double Imp[], double ImpD[], BOOL Interp);
+
+int lrsSrcUDd(double X[], double Y[], double factor, double *Time,
+             UWORD Nx, UWORD Nwing, double LpScl,
+             double Imp[], double ImpD[], BOOL Interp);
+
 #endif
