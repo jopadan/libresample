@@ -1,0 +1,7 @@
+**.o
+**.a
+tests/testresample
+config.log
+config.status
+Makefile
+src/config.h
