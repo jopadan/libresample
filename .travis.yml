@@ -4,9 +4,6 @@ compiler:
 - clang
 
 script:
-- mkdir -v build
-- cd build
-- mkdir -v ../m4
 - ../bootstrap
 - autoreconf -ivf
 - ../configure --prefix=${HOME}
