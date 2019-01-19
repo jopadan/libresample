@@ -27,9 +27,7 @@ AC_SUBST([PACKAGE_VERSION_MAJOR],package_version_major)
 AC_SUBST([PACKAGE_VERSION_MINOR],package_version_minor)
 AC_SUBST([PACKAGE_VERSION_MICRO],package_version_micro)
 AC_SUBST([API_VERSION],api_version)
-AC_SUBST([PACKAGE_VERSION],[package_version_major,
-                            package_version_minor,
-			    package_version_micro])
+AC_SUBST([PACKAGE_VERSION],[package_version_major,package_version_minor,package_version_micro])
 AC_SUBST(TARGETS)
 TARGETS="libsamplerate.la tests/testresample"
 
