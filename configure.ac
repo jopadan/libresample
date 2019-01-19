@@ -30,7 +30,21 @@ AC_SUBST([PACKAGE_VERSION],[package_version_major,package_version_minor,package_
 AC_SUBST(TARGETS)
 TARGETS="libsamplerate.la tests/testresample"
 
-dnl 
+AC_DEFUN([PKG_INSTALLDIR],
+[m4_pushdef([pkg_default], [m4_default([$1], ['${libdir}/pkgconfig'])])
+m4_pushdef([pkg_description],
+    [pkg-config installation directory @<:@]pkg_default[@:>@])
+AC_ARG_WITH([pkgconfigdir],
+    [AS_HELP_STRING([--with-pkgconfigdir], pkg_description)],,
+    [with_pkgconfigdir=]pkg_default)
+AC_SUBST([pkgconfigdir], [$with_pkgconfigdir])
+m4_popdef([pkg_default])
+m4_popdef([pkg_description])
+])
+
+PKG_INSTALLDIR
+
+dnl recursive path
 AM_EXTRA_RECURSIVE_TARGETS([tests])
 AC_CONFIG_MACRO_DIRS([m4])
 AM_INIT_AUTOMAKE([subdir-objects])
