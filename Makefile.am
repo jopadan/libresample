@@ -3,7 +3,9 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-test
 ACLOCAL_AMFLAGS = -I m4 --install
 
 EXTRA_DIST = README.md LICENSE-BSD.txt LICENSE-LGPL.txt
-pkgconfig_DATA = pkgconfig/libresample.pc
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libresample.pc
 
 lib_LTLIBRARIES = libresample.la
 

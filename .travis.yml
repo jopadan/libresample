@@ -4,9 +4,9 @@ compiler:
 - clang
 
 script:
-- ../bootstrap
+- ./bootstrap
 - autoreconf -ivf
-- ../configure --prefix=${HOME}
+- ./configure --prefix=${HOME}
 - make check
 - make distcheck
 - make install

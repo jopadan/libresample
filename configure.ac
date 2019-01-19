@@ -20,7 +20,6 @@ LT_PREREQ([2.2])
 
 dnl Dependencies
 PKG_PROG_PKG_CONFIG
-PKG_INSTALLDIR
 
 dnl version variables
 AC_SUBST([PACKAGE_VERSION_MAJOR],package_version_major)
@@ -43,7 +42,7 @@ AC_PATH_PROG([PKG_CONFIG], [pkg-config])
 LT_INIT([dlopen])
 
 dnl output files
-AC_CONFIG_FILES([Makefile] [pkgconfig/libresample.pc:pkgconfig/libresample.pc.in])
+AC_CONFIG_FILES([Makefile] [libresample.pc:libresample.pc.in])
  
 
 dnl enable test dependencies
