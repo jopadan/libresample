@@ -1,10 +1,11 @@
+dist: xenial
 language: c
 compiler:
 - gcc
 - clang
 
 before_script:
-- sudo apt-get install libappstream-dev pkg-components pkg-config m4 libglib2.0-dev libudev1 libudev-dev libopenal-data libopenal1 libopenal-dev libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3  libflac8 libflac-dev libflac++6 libflac++-dev -y
+- sudo apt-get install libappstream-dev pkg-components pkg-config m4 libproj-dev libglib2.0-dev libudev1 libudev-dev libopenal-data libopenal1 libopenal-dev libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3  libflac8 libflac-dev libflac++6 libflac++-dev -y
 - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 - sudo apt-get update -qq
 - git clone --recursive --recurse-submodules git://github.com/erikd/libsamplerate.git
