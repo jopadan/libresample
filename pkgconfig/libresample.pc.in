@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: @PACKAGE_NAME@
+Description: Real-time library interface by Dominic Mazzonie
+Version: @PACKAGE_VERSION@
+Requires: 
+Requires.private:
+Libs: -L${libdir} -lresample -lm
+Cflags: -I${includedir}
+URL: https://github.com/minorninth/libresample

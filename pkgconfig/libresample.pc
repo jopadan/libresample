@@ -1,0 +1,13 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libresample
+Description: Real-time library interface by Dominic Mazzonie
+Version: 0.1.3
+Requires: 
+Requires.private:
+Libs: -L${libdir} -lresample -lm
+Cflags: -I${includedir}
+URL: https://github.com/minorninth/libresample
