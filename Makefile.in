@@ -109,7 +109,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES = pkgconfig/libresample.pc
+CONFIG_CLEAN_FILES = libresample.pc
 CONFIG_CLEAN_VPATH_FILES =
 am__EXEEXT_1 = testresample$(EXEEXT) compareresample$(EXEEXT) \
 	resample-sndfile$(EXEEXT)
@@ -409,8 +409,7 @@ TEST_LOGS = $(am__test_logs2:.test.log=.log)
 TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/test-driver
 TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
-am__DIST_COMMON = $(srcdir)/Makefile.in \
-	$(top_srcdir)/pkgconfig/libresample.pc.in \
+am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/libresample.pc.in \
 	$(top_srcdir)/src/configtemplate.h AUTHORS COPYING ChangeLog \
 	INSTALL NEWS README compile config.guess config.sub depcomp \
 	install-sh ltmain.sh missing test-driver
@@ -543,7 +542,6 @@ mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
-pkgconfigdir = @pkgconfigdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
@@ -558,7 +556,8 @@ top_srcdir = @top_srcdir@
 DISTCHECK_CONFIGURE_FLAGS = --enable-test
 ACLOCAL_AMFLAGS = -I m4 --install
 EXTRA_DIST = README.md LICENSE-BSD.txt LICENSE-LGPL.txt
-pkgconfig_DATA = pkgconfig/libresample.pc
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libresample.pc
 lib_LTLIBRARIES = libresample.la
 include_HEADERS = include/libresample.h
 noinst_HEADERS = src/resample_defs.h \
@@ -639,7 +638,7 @@ $(top_srcdir)/src/configtemplate.h:  $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f src/config.h src/stamp-h1
-pkgconfig/libresample.pc: $(top_builddir)/config.status $(top_srcdir)/pkgconfig/libresample.pc.in
+libresample.pc: $(top_builddir)/config.status $(srcdir)/libresample.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
