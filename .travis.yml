@@ -11,9 +11,9 @@ before_script:
 - cd libsamplerate && ./autogen.sh && ./configure --prefix=${HOME} && make && sudo make install && cd ..
 - git clone --recursive --recurse-submodules git://github.com/erikd/libsndfile.git
 - cd libsndfile && ./autogen.sh && ./configure --prefix=${HOME} && make && sudo make install && cd ..
-- ./autogen.shi && autoreconf -ivf && ./configure --prefix=${HOME} && make clean
+- ./autogen.sh && autoreconf -ivf && ./configure --prefix=${HOME} && make clean
 script:
-- make && make check && make distcheck && sudo make install
+- make && make check && make distcheck && sudo make install && cd ..
 
 branches:
 only:
