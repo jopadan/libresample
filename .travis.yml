@@ -4,13 +4,16 @@ compiler:
 - clang
 
 before_script:
+- sudo apt-get install libglew-dev libjpeg62 libjpeg62-dev x11proto-randr-dev libxrandr2  libx11-data libx11-xcb-dev libx11-xcb1 libx11-dev libxrender1 libxrender-dev libxi-dev x11proto-input-dev libxrandr-dev libudev1 libudev-dev libopenal-data libopenal1 libopenal-dev libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3  libflac8 libflac-dev libflac++6 libflac++-dev -y
+- sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+- sudo apt-get update -qq
 - git clone --recursive --recurse-submodules git://github.com/erikd/libsamplerate.git
 - cd libsamplerate && ./autogen.sh && ./configure --prefix=${HOME} && make && sudo make install && cd ..
 - git clone --recursive --recurse-submodules git://github.com/erikd/libsndfile.git
 - cd libsndfile && ./autogen.sh && ./configure --prefix=${HOME} && make && sudo make install && cd ..
 - ./autogen.shi && autoreconf -ivf && ./configure --prefix=${HOME} && make clean
 script:
-- make && make check && distcheck && make install
+- make && make check && make distcheck && sudo make install
 
 branches:
 only:
