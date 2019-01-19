@@ -3,10 +3,16 @@ compiler:
 - gcc
 - clang
 
+before_script:
+- git clone --recursive --recurse-submodules git://github.com/erikd/libsamplerate.git
+- cd libsamplerate && ./autogen.sh && ./configure --prefix=${HOME} && make && sudo make install && cd ..
+- git clone --recursive --recurse-submodules git://github.com/erikd/libsndfile.git
+- cd libsndfile && ./autogen.sh && ./configure --prefix=${HOME} && make && sudo make install && cd ..
+- ./autogen.shi && autoreconf -ivf && ./configure --prefix=${HOME} && make clean
 script:
-- ./bootstrap
-- autoreconf -ivf
-- ./configure --prefix=${HOME}
-- make check
-- make distcheck
-- make install
+- make && make check && distcheck && make install
+
+branches:
+only:
+- master
+  
