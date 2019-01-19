@@ -9,12 +9,12 @@ before_script:
 - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 - sudo apt-get update -qq
 - git clone --recursive --recurse-submodules git://github.com/erikd/libsamplerate.git
-- cd libsamplerate && aclocal --install --force && autoreconf -ivf && ./autogen.sh && ./configure && make && sudo make install && cd ..
+- cd libsamplerate && ./autogen.sh && ./configure && make && sudo make install && cd ..
 - git clone --recursive --recurse-submodules git://github.com/erikd/libsndfile.git
-- cd libsndfile && aclocal --install --force && autoreconf -ivf && ./autogen.sh && ./configure && make && sudo make install && cd ..
-- ./autogen.sh && autoreconf -ivf && ./configure --prefix=${HOME} && make clean
+- cd libsndfile && ./autogen.sh && ./configure && make && sudo make install && cd ..
+- ./autogen.sh && ./configure && make clean
 script:
-- make && make check && make distcheck && sudo make install && cd ..
+- make && make check && sudo make install
 
 branches:
 only:
