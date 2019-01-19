@@ -14,7 +14,7 @@ before_script:
 - cd libsndfile && ./autogen.sh && ./configure && make && sudo make install && cd ..
 - ./autogen.sh && ./configure && make clean
 script:
-- make && make check && sudo make install
+- make && sudo make install && make check
 
 branches:
 only:
