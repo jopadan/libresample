@@ -5,7 +5,7 @@ compiler:
 - clang
 
 before_script:
-- sudo apt-get install libappstream-dev pkg-components pkg-config m4 libproj-dev libglib2.0-dev libudev1 libudev-dev -y
+- sudo apt-get install autogen libappstream-dev pkg-components pkg-config m4 libproj-dev libglib2.0-dev libudev1 libudev-dev -y
 - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 - sudo apt-get update -qq
 - git clone --recursive --recurse-submodules git://github.com/erikd/libsamplerate.git
